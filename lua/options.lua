@@ -28,3 +28,22 @@ opt.showmatch = true
 opt.matchtime = 2
 
 opt.fillchars:append({ diff = '/', eob = ' ' })
+
+opt.ignorecase = true
+opt.smartcase = true
+
+opt.path:append('**')
+opt.wildmode = { 'longest:full', 'full' }
+opt.wildignore:append({
+    '*.o', '*.obj', '*.pyc', '*.class', '*.jar',
+    '*/node_modules/*', '*/.git/*', '*/.venv/*',
+    '**/target/**', '**/build/**',
+})
+
+opt.swapfile = false
+opt.writebackup = false
+opt.undofile = true
+
+opt.updatetime = 250
+opt.timeoutlen = 250
+opt.ttimeoutlen = 0
