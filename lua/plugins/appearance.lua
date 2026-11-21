@@ -30,3 +30,18 @@ require('tiny-cmdline').setup({
   position = { x = '50%', y = '25%' },
   title = { enabled = true, pos = 'left' },
 })
+
+require('catppuccin').setup({
+  flavour = 'mocha',
+  term_colors = true,
+  styles = { conditionals = { } }, -- 去除条件语句斜体
+  custom_highlights = function(colors)
+    return {
+      StatusLine = { bg = colors.base },
+      CursorLine = { bg = colors.surface0 },
+      Visual = { style = { } }, -- 去除 Visual 粗体
+    }
+  end,
+})
+
+vim.cmd.colorscheme('catppuccin-nvim')

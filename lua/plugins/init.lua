@@ -10,6 +10,10 @@ end
 
 vim.pack.add({
   gh('rachartier/tiny-cmdline.nvim'),
+  {
+    src = gh('catppuccin/nvim'),
+    name = "catppuccin",
+  },
 })
 
 require('plugins.appearance')
