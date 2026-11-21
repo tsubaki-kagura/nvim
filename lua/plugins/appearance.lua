@@ -1,5 +1,9 @@
-vim.opt.termguicolors = true
-vim.opt.cmdheight = 0
+local opt = vim.opt
+
+opt.termguicolors = true
+opt.cmdheight = 0
+opt.showtabline = 0
+opt.showmode = false
 
 require('vim._core.ui2').enable({
   enable = true,
@@ -23,7 +27,6 @@ require('vim._core.ui2').enable({
 })
 
 require('tiny-cmdline').setup({
-  width = { value = '70%' },
   position = { x = '50%', y = '25%' },
   title = { enabled = true, pos = 'left' },
 })

@@ -25,7 +25,7 @@ opt.winborder = 'rounded'
 
 opt.title = true
 opt.showmatch = true
-opt.matchtime = 2
+opt.matchtime = 1
 
 opt.fillchars:append({ diff = '/', eob = ' ' })
 
@@ -40,6 +40,8 @@ opt.wildignore:append({
   '**/target/**', '**/build/**',
 })
 
+opt.completeopt = { 'menuone', 'popup', 'noselect' }
+
 opt.swapfile = false
 opt.writebackup = false
 opt.undofile = true
@@ -50,7 +52,17 @@ opt.ttimeoutlen = 0
 
 opt.splitbelow = true
 opt.splitright = true
+opt.splitkeep = 'screen'
 
 opt.foldmethod = 'expr'
 opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 opt.foldlevel = 99
+
+opt.confirm = true
+
+opt.list = true
+opt.listchars:append({
+  tab = '󰌒 ',
+  trail = '•',
+  nbsp = '󱁐',
+})
