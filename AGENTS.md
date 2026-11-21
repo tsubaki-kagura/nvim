@@ -6,9 +6,10 @@
 
 - `init.lua` 先启用 `vim.loader`，再按 `options`、`keymaps`、`autocmds`、`plugins` 的顺序 require 对应模块。新增配置请写进这些模块，不要继续往 `init.lua` 里堆。
 - `lua/` 已在 `runtimepath` 中，因此 `require('options')` 会解析到 `lua/options.lua`；不要写成 `require('lua.options')`。
-- 这四个模块目前都是空占位文件，且**没有插件管理器**（没有 lazy.nvim 引导，也没有 lockfile）。要加插件必须先选定并接好插件管理器，不要假设已经存在。
+- 插件由 Neovim 内置的 `vim.pack` 管理：在 `lua/plugins/init.lua` 中用 `vim.pack.add()` 声明并安装，更新插件执行 `:lua vim.pack.update()` 后重启。`nvim-pack-lock.json` 由 vim.pack 生成并锁定版本，禁止手改，但必须提交。
+- `lua/plugins/` 下的模块不会被自动加载，必须在 `lua/plugins/init.lua` 中显式 `require('plugins.xxx')`。
 - 此处的 Neovim 为 v0.12.x，使用 LuaJIT（Lua 5.1）：不支持 `//`、位运算符以及仅 5.3 才有的语法。
-- 插件/数据目录位于 `stdpath('data')`（`%LOCALAPPDATA%\nvim`），不在本仓库内。请使用 `stdpath()`/`vim.fn.expand()`，不要硬编码 Unix 路径。
+- 数据目录为 `stdpath('data')`（`%LOCALAPPDATA%\nvim-data`），插件安装在其中的 `site/pack/core/opt/`，均不在本仓库内。请使用 `stdpath()`/`vim.fn.expand()`，不要硬编码 Unix 路径。
 
 ## 验证修改
 

@@ -1,0 +1,8 @@
+{
+  "plugins": {
+    "tiny-cmdline.nvim": {
+      "rev": "ac9c6557c66da6308eb523643df8778f3cbe652f",
+      "src": "https://github.com/rachartier/tiny-cmdline.nvim.git"
+    }
+  }
+}
