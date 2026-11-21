@@ -14,6 +14,8 @@ vim.pack.add({
     src = gh('catppuccin/nvim'),
     name = "catppuccin",
   },
+  gh('nvim-mini/mini.icons'),
+  gh('nvim-lualine/lualine.nvim'),
 })
 
 require('plugins.appearance')
