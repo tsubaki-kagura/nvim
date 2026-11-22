@@ -26,6 +26,8 @@ vim.pack.add({
     version = vim.version.range('*'),
   },
   gh('nvim-mini/mini.files'),
+  gh('nvim-lua/plenary.nvim'),
+  gh('j-morano/buffer_manager.nvim'),
 })
 
 require('plugins.appearance')

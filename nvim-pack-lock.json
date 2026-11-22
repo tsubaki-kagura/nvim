@@ -13,6 +13,10 @@
       "src": "https://github.com/saghen/blink.pairs.git",
       "version": ">=0.0.0"
     },
+    "buffer_manager.nvim": {
+      "rev": "574ccf195a8e7627bc5b57f6c0c252844837fbee",
+      "src": "https://github.com/j-morano/buffer_manager.nvim.git"
+    },
     "catppuccin": {
       "rev": "edefef779ab08ce1a4a404713e3012b0d202bd35",
       "src": "https://github.com/catppuccin/nvim.git"
@@ -28,6 +32,10 @@
     "mini.icons": {
       "rev": "5d58117d176c133f4cb5585ec8cb3450881c89a0",
       "src": "https://github.com/nvim-mini/mini.icons.git"
+    },
+    "plenary.nvim": {
+      "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
+      "src": "https://github.com/nvim-lua/plenary.nvim.git"
     },
     "tiny-cmdline.nvim": {
       "rev": "ac9c6557c66da6308eb523643df8778f3cbe652f",

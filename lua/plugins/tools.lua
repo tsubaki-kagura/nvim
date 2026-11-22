@@ -135,3 +135,27 @@ utils.create_autocmd('User', {
     })
   end,
 })
+
+require('buffer_manager').setup({
+  select_menu_item_commands = {
+    edit = { key = 'l', command = 'edit' },
+    split_edit = { key = 'L', command = 'vertical split' },
+  },
+  highlight = 'Normal:BufferManagerNormal',
+  order_buffers = 'lastused',
+  toggle_key_bindings = { 'q', '<esc>' },
+  win_position = { h = 0.5, v = 0.4 }
+})
+
+local bmui = require('buffer_manager.ui')
+local popup = require('plenary.popup')
+
+local popup_create = popup.create
+popup.create = function(what, opts)
+  if opts and opts.title then
+    opts = vim.tbl_extend('force', opts, { titlehighlight = 'BufferManagerTitle' })
+  end
+  return popup_create(what, opts)
+end
+
+utils.keymap('n', '<leader><space>', bmui.toggle_quick_menu)

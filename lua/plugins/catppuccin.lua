@@ -14,6 +14,7 @@ require('catppuccin').setup({
   highlight_overrides = {
     mocha = function(colors)
       return {
+        TinyCmdlineNormal = { bg = colors.mantle },
         BlinkIndent = { fg = colors.surface1 },
         BlinkIndentLavender = { fg = colors.lavender },
         BlinkPairsText = { fg = colors.text },
@@ -29,6 +30,13 @@ require('catppuccin').setup({
           bg = colors.surface1,
           style = { 'bold' },
         },
+        BufferManagerNormal = {
+          fg = colors.blue,
+          bg = colors.mantle,
+          style = {},
+        },
+        BufferManagerModified = { fg = colors.sky },
+        BufferManagerTitle = { fg = colors.subtext0 },
       }
     end,
   },

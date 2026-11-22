@@ -9,7 +9,7 @@ require('lualine').setup({
   options = {
     theme = 'catppuccin-nvim',
     component_separators = { left = '' },
-    ignore_focus = { 'minifiles', 'minifiles-help' },
+    ignore_focus = { 'minifiles', 'minifiles-help', 'buffer_manager' },
   },
   sections = { -- 聚焦时的状态栏组件
     lualine_a = {
