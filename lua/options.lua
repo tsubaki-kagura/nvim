@@ -19,13 +19,10 @@ opt.colorcolumn = '100'
 opt.scrolloff = 8
 opt.sidescrolloff = 8
 
+opt.title = true
 opt.pumheight = 10
 opt.pumborder = 'rounded'
 opt.winborder = 'rounded'
-
-opt.title = true
-opt.showmatch = true
-opt.matchtime = 1
 
 opt.fillchars:append({ diff = '/', eob = ' ' })
 
@@ -58,6 +55,7 @@ opt.foldmethod = 'expr'
 opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 opt.foldlevel = 99
 
+opt.report = 0
 opt.confirm = true
 
 opt.list = true

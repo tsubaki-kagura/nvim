@@ -11,6 +11,7 @@ keymap.set('i', '<c-j>', '<down>', opts)
 keymap.set('i', '<c-k>', '<up>', opts)
 keymap.set('i', '<c-l>', '<right>', opts)
 
+keymap.set('n', 'U', '<c-r>', opts)
 keymap.set('n', '+', '<c-a>', opts)
 keymap.set('n', '-', '<c-x>', opts)
 keymap.set('n', '<leader>rs', '<cmd>restart<cr>', opts)
