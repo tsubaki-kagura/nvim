@@ -9,6 +9,7 @@ require('lualine').setup({
   options = {
     theme = 'catppuccin-nvim',
     component_separators = { left = '' },
+    ignore_focus = { 'minifiles', 'minifiles-help' },
   },
   sections = { -- 聚焦时的状态栏组件
     lualine_a = {
@@ -28,17 +29,11 @@ require('lualine').setup({
       }
     },
     lualine_c = {
-      {
-        'filename',
-        shorting_target = 64,
-        path = 1,
-      }
+      { 'filename', shorting_target = 64, path = 1 }
     },
     lualine_x = {
-      {
-        'branch',
-        icon = '',
-      },
+      { 'searchcount', timeout = 250, icon = '󰱼' },
+      { 'branch', icon = '' },
       {
         'encoding',
         show_bomb = true,
@@ -77,11 +72,7 @@ require('lualine').setup({
       }
     },
     lualine_c = {
-      {
-        'filename',
-        shorting_target = 64,
-        path = 1,
-      }
+      { 'filename', shorting_target = 64, path = 1 }
     },
     lualine_x = {
       {

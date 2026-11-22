@@ -1,14 +1,12 @@
-local augroup = vim.api.nvim_create_augroup('UserConfig', { clear = true })
+local create_autocmd = require('utils').create_autocmd
 
-vim.api.nvim_create_autocmd('UIEnter', {
-  group = augroup,
+create_autocmd('UIEnter', {
   callback = function()
     vim.opt.clipboard = 'unnamedplus'
   end,
 })
 
-vim.api.nvim_create_autocmd('TextYankPost', {
-  group = augroup,
+create_autocmd('TextYankPost', {
   callback = function()
     vim.hl.on_yank({ higroup = 'Visual', timeout = 250 })
   end,
@@ -19,8 +17,7 @@ local use_2space_ft = {
   'typescriptreact', 'vue', 'xml', 'yaml', 'json', 'jsonc',
 }
 
-vim.api.nvim_create_autocmd('FileType', {
-  group = augroup,
+create_autocmd('FileType', {
   pattern = use_2space_ft,
   callback = function()
     vim.opt_local.tabstop = 2
@@ -30,8 +27,7 @@ vim.api.nvim_create_autocmd('FileType', {
 
 local skip_restore_cursor_ft = { gitcommit = true }
 
-vim.api.nvim_create_autocmd('BufReadPost', {
-  group = augroup,
+create_autocmd('BufReadPost', {
   callback = function(event)
     if vim.b[event.buf].did_restore_cursor then return end
     local ft = vim.filetype.match({ buf = event.buf })

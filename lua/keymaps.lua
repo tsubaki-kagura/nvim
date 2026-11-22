@@ -1,21 +1,19 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-local keymap = vim.keymap
-local opts = { remap = false, silent = true }
-local expr_opts = vim.tbl_extend('force', opts, { expr = true })
+local keymap = require('utils').keymap
 
-keymap.set('i', 'jk', '<esc>', opts)
-keymap.set('i', '<c-h>', '<left>', opts)
-keymap.set('i', '<c-j>', '<down>', opts)
-keymap.set('i', '<c-k>', '<up>', opts)
-keymap.set('i', '<c-l>', '<right>', opts)
+keymap('i', 'jk', '<esc>')
+keymap('i', '<c-h>', '<left>')
+keymap('i', '<c-j>', '<down>')
+keymap('i', '<c-k>', '<up>')
+keymap('i', '<c-l>', '<right>')
 
-keymap.set('n', 'U', '<c-r>', opts)
-keymap.set('n', '+', '<c-a>', opts)
-keymap.set('n', '-', '<c-x>', opts)
-keymap.set('n', '<leader>rs', '<cmd>restart<cr>', opts)
-keymap.set('n', '<leader>ch', '<cmd>nohlsearch<cr>', opts)
+keymap('n', 'U', '<c-r>')
+keymap('n', '+', '<c-a>')
+keymap('n', '-', '<c-x>')
+keymap('n', '<leader>rs', '<cmd>restart<cr>')
+keymap('n', '<leader>ch', '<cmd>nohlsearch<cr>')
 
 local close_other_windows = function()
   local cur_win = vim.api.nvim_get_current_win()
@@ -26,23 +24,23 @@ local close_other_windows = function()
   end
 end
 
-keymap.set('n', '<leader>wj', '<cmd>split<cr>', opts)
-keymap.set('n', '<leader>wl', '<cmd>vertical split<cr>', opts)
-keymap.set('n', '<leader>wd', '<cmd>close<cr>', opts)
-keymap.set('n', '<leader>wo', close_other_windows, opts)
+keymap('n', '<leader>wj', '<cmd>split<cr>')
+keymap('n', '<leader>wl', '<cmd>vertical split<cr>')
+keymap('n', '<leader>wd', '<cmd>close<cr>')
+keymap('n', '<leader>wo', close_other_windows)
 
-keymap.set('n', '<c-h>', '<c-w>h', opts)
-keymap.set('n', '<c-j>', '<c-w>j', opts)
-keymap.set('n', '<c-k>', '<c-w>k', opts)
-keymap.set('n', '<c-l>', '<c-w>l', opts)
+keymap('n', '<c-h>', '<c-w>h')
+keymap('n', '<c-j>', '<c-w>j')
+keymap('n', '<c-k>', '<c-w>k')
+keymap('n', '<c-l>', '<c-w>l')
 
-keymap.set('n', '<a-h>', '<cmd>vertical resize +1<cr>', opts)
-keymap.set('n', '<a-j>', '<cmd>resize -1<cr>', opts)
-keymap.set('n', '<a-k>', '<cmd>resize +1<cr>', opts)
-keymap.set('n', '<a-l>', '<cmd>vertical resize -1<cr>', opts)
+keymap('n', '<a-h>', '<cmd>vertical resize +1<cr>')
+keymap('n', '<a-j>', '<cmd>resize -1<cr>')
+keymap('n', '<a-k>', '<cmd>resize +1<cr>')
+keymap('n', '<a-l>', '<cmd>vertical resize -1<cr>')
 
-keymap.set({ 'n', 'v' }, 'x', '"_x', opts)
-keymap.set({ 'n', 'v' }, 'c', '"_c', opts)
+keymap({ 'n', 'v' }, 'x', '"_x')
+keymap({ 'n', 'v' }, 'c', '"_c')
 
 local move = function(direction)
   return function()
@@ -50,8 +48,9 @@ local move = function(direction)
   end
 end
 
-keymap.set({ 'n', 'v' }, 'j', move('j'), expr_opts)
-keymap.set({ 'n', 'v' }, 'k', move('k'), expr_opts)
+local opts = { expr = true }
+keymap({ 'n', 'v' }, 'j', move('j'), opts)
+keymap({ 'n', 'v' }, 'k', move('k'), opts)
 
-keymap.set({ 'n', 'v', 'o' }, 'H', '^', opts)
-keymap.set({ 'n', 'v', 'o' }, 'L', '$', opts)
+keymap({ 'n', 'v', 'o' }, 'H', '^')
+keymap({ 'n', 'v', 'o' }, 'L', '$')

@@ -1,4 +1,5 @@
 vim.opt.cmdheight = 0
+
 require('vim._core.ui2').enable({
   msg = {
     target = 'msg',

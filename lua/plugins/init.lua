@@ -1,5 +1,6 @@
-vim.g.loaded_matchparen = 1
 vim.g.loaded_remote_plugins = 1
+vim.g.loaded_matchparen = 1
+vim.g.loaded_netrw = 1
 
 local providers = { 'node', 'perl', 'python3', 'ruby' }
 for _, provider in pairs(providers) do
@@ -24,6 +25,7 @@ vim.pack.add({
     src = gh('saghen/blink.pairs'),
     version = vim.version.range('*'),
   },
+  gh('nvim-mini/mini.files'),
 })
 
 require('plugins.appearance')
