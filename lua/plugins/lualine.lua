@@ -114,7 +114,7 @@ lualine.setup({
   options = {
     theme = 'catppuccin-nvim',
     component_separators = { left = '' },
-    ignore_focus = { 'minifiles', 'minifiles-help', 'buffer_manager' },
+    ignore_focus = { 'minifiles', 'minifiles-help', 'buffer_manager', 'pager' },
   },
   sections = { -- 聚焦时的状态栏组件
     lualine_a = {

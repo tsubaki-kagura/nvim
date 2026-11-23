@@ -1,7 +1,9 @@
 vim.opt.termguicolors = true
 vim.opt.cmdheight = 0
 
-require('vim._core.ui2').enable({
+local ui2 = require('vim._core.ui2')
+
+ui2.enable({
   msg = {
     target = 'msg',
     targets = {
@@ -19,6 +21,26 @@ require('vim._core.ui2').enable({
     msg = { height = 0.3, timeout = 5000 },
     pager = { height = 0.5 },
   },
+})
+
+local set_config = vim.api.nvim_win_set_config
+vim.api.nvim_win_set_config = function(win, config)
+  if win == ui2.wins.pager and config.row ~= nil then
+    config = vim.tbl_extend('force', config, {
+      title = ' Messages ',
+      title_pos = 'center',
+      border = 'rounded',
+      row = config.row - 1,
+    })
+  end
+  return set_config(win, config)
+end
+
+require('utils').create_autocmd('FileType', {
+  pattern = 'pager',
+  callback = function()
+    vim.opt_local.winhighlight = 'Normal:PagerNormal'
+  end,
 })
 
 require('tiny-cmdline').setup({
