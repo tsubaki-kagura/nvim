@@ -5,7 +5,112 @@ mini_icons.mock_nvim_web_devicons()
 vim.opt.showmode = false
 vim.opt.showtabline = 0
 
-require('lualine').setup({
+local register = ''
+local lualine = require('lualine')
+local create_autocmd = require('utils').create_autocmd
+
+create_autocmd('RecordingEnter', {
+  callback = function()
+    if register == '' then
+      vim.schedule(function()
+        register = vim.fn.reg_recording()
+        lualine.refresh()
+      end)
+    end
+  end,
+})
+
+create_autocmd('RecordingLeave', {
+  callback = function()
+    if register ~= '' then
+      vim.schedule(function()
+        register = ''
+        lualine.refresh()
+      end)
+    end
+  end,
+})
+
+local git_branch = require('lualine.components.branch.git_branch')
+local find_git_dir = git_branch.find_git_dir
+git_branch.find_git_dir = function(dir_path)
+  if not dir_path then
+    local name = vim.api.nvim_buf_get_name(0)
+    if name == '' or (name:match('^%a[%w+.-]*://') ~= nil and not name:match('^term://')) then
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        local file = vim.api.nvim_buf_get_name(buf)
+        if vim.bo[buf].buftype == '' and file ~= '' and not file:match('://') then
+          dir_path = vim.fn.fnamemodify(file, ':p:h')
+          break
+        end
+      end
+    end
+  end
+  return find_git_dir(dir_path)
+end
+
+local mocha_colors = require('catppuccin.palettes').get_palette('mocha')
+local common_component_separator = { left = '', right = '' }
+local common_components = {
+  filetype = {
+    'filetype',
+    separator = { right = '' },
+  },
+  encoding = {
+    'encoding',
+    icon = '',
+    color = { fg = mocha_colors.teal },
+    fmt = function(str)
+      return str:upper()
+    end,
+  },
+  filename = {
+    'filename',
+    path = 1,
+    shorting_target = 64,
+    symbols = {
+      modified = '󰷬',
+      readonly = '󰷧',
+      unnamed = '󰄰',
+      newfile = '',
+    },
+  },
+  filesize = {
+    'filesize',
+    icon = '',
+    color = { bg = mocha_colors.surface1 },
+    separator = common_component_separator,
+  },
+  fileformat = {
+    'fileformat',
+    icon = '󰘤',
+    color = { fg = mocha_colors.teal },
+    symbols = {
+      unix = 'LF',
+      dos = 'CRLF',
+      mac = 'CR',
+    },
+  },
+  progress = {
+    'progress',
+    separator = { left = '' },
+    icon = '',
+  },
+}
+
+local exception_components = {
+  filetype = vim.tbl_extend(
+    'force', common_components.filetype,
+    { separator = common_component_separator }
+  ),
+  progress = vim.tbl_extend(
+    'force', common_components.progress,
+    { separator = common_component_separator }
+  ),
+}
+
+lualine.setup({
   options = {
     theme = 'catppuccin-nvim',
     component_separators = { left = '' },
@@ -22,41 +127,37 @@ require('lualine').setup({
         end,
       },
     },
-    lualine_b = {
-      {
-        'filetype',
-        separator = { right = '' },
-      }
-    },
-    lualine_c = {
-      { 'filename', shorting_target = 64, path = 1 }
-    },
+    lualine_b = { common_components.filetype },
+    lualine_c = { common_components.encoding, common_components.filename },
     lualine_x = {
-      { 'searchcount', timeout = 250, icon = '󰱼' },
-      { 'branch', icon = '' },
       {
-        'encoding',
-        show_bomb = true,
-        fmt = function(str)
-          return str:upper()
+        function()
+          return register
         end,
+        cond = function()
+          return register ~= ''
+        end,
+        fmt = function(reg)
+          reg = reg == 'nil' and '' or reg
+          return reg ~= '' and (' REC @' .. register) or ''
+        end,
+        color = { fg = mocha_colors.red },
       },
       {
-        'fileformat',
-        symbols = {
-          unix = 'LF',
-          dos = 'CRLF',
-          mac = 'CR',
-        },
+        'searchcount',
+        icon = '󰱼',
+        color = { fg = mocha_colors.rosewater },
+        timeout = 250,
       },
-    },
-    lualine_y = {
       {
-        'progress',
-        separator = { left = '' },
-        icon = '',
+        'branch',
+        icon = '',
+        color = { fg = mocha_colors.pink },
       },
+      common_components.filesize,
+      common_components.fileformat,
     },
+    lualine_y = { common_components.progress },
     lualine_z = {
       {
         'location',
@@ -65,30 +166,9 @@ require('lualine').setup({
     },
   },
   inactive_sections = { -- 离焦时的状态栏组件
-    lualine_b = {
-      {
-        'filetype',
-        separator = { left = '', right = '' },
-      }
-    },
-    lualine_c = {
-      { 'filename', shorting_target = 64, path = 1 }
-    },
-    lualine_x = {
-      {
-        'encoding',
-        show_bomb = true,
-        fmt = function(str)
-          return str:upper()
-        end,
-      },
-    },
-    lualine_y = {
-      {
-        'progress',
-        separator = { left = '', right = '' },
-        icon = '',
-      },
-    },
+    lualine_b = { exception_components.filetype },
+    lualine_c = { common_components.encoding, common_components.filename },
+    lualine_x = { common_components.filesize, common_components.fileformat },
+    lualine_y = { exception_components.progress },
   },
 })

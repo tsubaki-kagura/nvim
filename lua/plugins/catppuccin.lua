@@ -1,5 +1,3 @@
-vim.opt.termguicolors = true
-
 require('catppuccin').setup({
   flavour = 'mocha',
   term_colors = true,
@@ -9,6 +7,7 @@ require('catppuccin').setup({
       StatusLine = { bg = colors.base },
       CursorLine = { bg = colors.surface0 },
       Visual = { style = { } }, -- 去除 Visual 粗体
+      WinSeparator = { fg = colors.subtext1 },
     }
   end,
   highlight_overrides = {
