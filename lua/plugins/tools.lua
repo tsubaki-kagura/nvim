@@ -40,11 +40,7 @@ else
   end)
   :on_reject(function(err)
     vim.schedule(function()
-      if blink_pairs.library_available() then
-        blink_pairs_setup()
-      else
-        vim.notify(vim.inspect(err), vim.log.levels.ERROR)
-      end
+      vim.notify(vim.inspect(err), vim.log.levels.ERROR)
     end)
   end)
 end

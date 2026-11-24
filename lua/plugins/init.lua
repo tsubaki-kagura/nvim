@@ -20,7 +20,7 @@ vim.pack.add({
   gh('nvim-mini/mini.icons'),
   gh('nvim-lualine/lualine.nvim'),
   gh('saghen/blink.indent'),
-  gh('saghen/blink.lib'),
+  gh('tsubaki-kagura/blink.lib'),
   {
     src = gh('saghen/blink.pairs'),
     version = vim.version.range('*'),

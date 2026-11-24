@@ -1,15 +1,19 @@
-local mini_icons = require('mini.icons')
-mini_icons.setup({ style = 'glyph' })
-mini_icons.mock_nvim_web_devicons()
-
 vim.opt.showmode = false
 vim.opt.showtabline = 0
 
-local register = ''
+local mini_icons = require('mini.icons')
 local lualine = require('lualine')
-local create_autocmd = require('utils').create_autocmd
+local utils = require('utils')
 
-create_autocmd('RecordingEnter', {
+local git_branch = require('lualine.components.branch.git_branch')
+local mocha_colors = require('catppuccin.palettes').get_palette('mocha')
+
+mini_icons.setup({ style = 'glyph' })
+mini_icons.mock_nvim_web_devicons()
+
+local register = ''
+
+utils.create_autocmd('RecordingEnter', {
   callback = function()
     if register == '' then
       vim.schedule(function()
@@ -20,7 +24,7 @@ create_autocmd('RecordingEnter', {
   end,
 })
 
-create_autocmd('RecordingLeave', {
+utils.create_autocmd('RecordingLeave', {
   callback = function()
     if register ~= '' then
       vim.schedule(function()
@@ -31,7 +35,6 @@ create_autocmd('RecordingLeave', {
   end,
 })
 
-local git_branch = require('lualine.components.branch.git_branch')
 local find_git_dir = git_branch.find_git_dir
 git_branch.find_git_dir = function(dir_path)
   if not dir_path then
@@ -50,12 +53,14 @@ git_branch.find_git_dir = function(dir_path)
   return find_git_dir(dir_path)
 end
 
-local mocha_colors = require('catppuccin.palettes').get_palette('mocha')
 local common_component_separator = { left = '', right = '' }
 local common_components = {
   filetype = {
     'filetype',
     separator = { right = '' },
+    fmt = function(str)
+      return str ~= '' and str or 'file'
+    end,
   },
   encoding = {
     'encoding',

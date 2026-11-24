@@ -32,11 +32,10 @@ require('catppuccin').setup({
         BufferManagerNormal = {
           fg = colors.blue,
           bg = colors.mantle,
-          style = {},
         },
         BufferManagerModified = { fg = colors.sky },
         BufferManagerTitle = { fg = colors.subtext0 },
-        PagerNormal = { bg = colors.mantle },
+        MessageNormal = { bg = colors.mantle },
       }
     end,
   },

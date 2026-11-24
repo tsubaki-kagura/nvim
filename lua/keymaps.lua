@@ -1,7 +1,10 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-local keymap = require('utils').keymap
+local utils = require('utils')
+
+local keymap = utils.keymap
+local toggle_textwrap = utils.toggle_textwrap
 
 keymap('i', 'jk', '<esc>')
 keymap('i', '<c-h>', '<left>')
@@ -14,6 +17,8 @@ keymap('n', '+', '<c-a>')
 keymap('n', '-', '<c-x>')
 keymap('n', '<leader>rs', '<cmd>restart<cr>')
 keymap('n', '<leader>ch', '<cmd>nohlsearch<cr>')
+keymap('n', '<a-z>', toggle_textwrap)
+
 
 local close_other_windows = function()
   local cur_win = vim.api.nvim_get_current_win()
@@ -42,13 +47,13 @@ keymap('n', '<a-l>', '<cmd>vertical resize -1<cr>')
 keymap({ 'n', 'v' }, 'x', '"_x')
 keymap({ 'n', 'v' }, 'c', '"_c')
 
-local move = function(direction)
+local opts = { expr = true }
+local move = function(dir)
   return function()
-    return vim.opt_local.wrap:get() and 'g' .. direction or direction
+    return vim.opt_local.wrap:get() and ('g%s'):format(dir) or dir
   end
 end
 
-local opts = { expr = true }
 keymap({ 'n', 'v' }, 'j', move('j'), opts)
 keymap({ 'n', 'v' }, 'k', move('k'), opts)
 

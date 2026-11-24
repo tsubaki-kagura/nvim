@@ -1,4 +1,34 @@
-local create_autocmd = require('utils').create_autocmd
+local utils = require('utils')
+
+local create_autocmd = utils.create_autocmd
+local toggle_textwrap = utils.toggle_textwrap
+
+local prose_ft = { 'markdown', 'text' }
+
+create_autocmd('FileType', {
+  pattern = prose_ft,
+  callback = function()
+    toggle_textwrap(true)
+  end,
+})
+
+create_autocmd('InsertEnter', {
+  callback = function()
+    local ft = vim.opt_local.filetype:get()
+    if not vim.list_contains(prose_ft, ft) then
+      vim.opt_local.colorcolumn = ''
+    end
+  end,
+})
+
+create_autocmd('InsertLeave', {
+  callback = function()
+    local ft = vim.opt_local.filetype:get()
+    if not vim.list_contains(prose_ft, ft) then
+      vim.opt_local.colorcolumn = '100'
+    end
+  end,
+})
 
 create_autocmd('UIEnter', {
   callback = function()

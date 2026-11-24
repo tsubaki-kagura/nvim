@@ -12,4 +12,25 @@ function M.create_autocmd(event, opts)
   vim.api.nvim_create_autocmd(event, opts)
 end
 
+local textwrap = {
+  code = {
+    wrap = false,
+    linebreak = false,
+    colorcolumn = '100',
+  },
+  prose = {
+    wrap = true,
+    linebreak = true,
+    colorcolumn = '',
+  },
+}
+
+function M.toggle_textwrap(force_prose)
+  local target = vim.opt_local.wrap:get() and 'code' or 'prose'
+  local mode = force_prose and 'prose' or target
+  for key, value in pairs(textwrap[mode]) do
+    vim.opt_local[key] = value
+  end
+end
+
 return M

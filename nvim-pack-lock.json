@@ -5,8 +5,8 @@
       "src": "https://github.com/saghen/blink.indent.git"
     },
     "blink.lib": {
-      "rev": "fd9a48ebbe6ec30d5dfcc5b42c243941ccdca1aa",
-      "src": "https://github.com/saghen/blink.lib.git"
+      "rev": "eabea524ffcb01be38878d019593718449eea3d3",
+      "src": "https://github.com/tsubaki-kagura/blink.lib.git"
     },
     "blink.pairs": {
       "rev": "c382bc4ba0229211c8ae19491bb7aa930c051a42",
