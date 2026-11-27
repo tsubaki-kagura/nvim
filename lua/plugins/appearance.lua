@@ -6,6 +6,7 @@ require('plugins.lualine')
 
 local ui2 = require('vim._core.ui2')
 local ui2_cmdline = require('vim._core.ui2.cmdline')
+local ui2_messages = require('vim._core.ui2.messages')
 local utils = require('utils')
 local cmdline = require('tiny-cmdline')
 local indent = require('blink.indent')
@@ -56,12 +57,36 @@ vim.api.nvim_win_set_config = function(win, config)
   return set_config(win, config)
 end
 
-local set_width = vim.api.nvim_win_set_width
-vim.api.nvim_win_set_width = function(win, width)
-  if win == ui2.wins.msg then
-    width = math.min(width, math.floor(vim.o.columns * 0.4))
+local show_msg = ui2_messages.show_msg
+local set_pos = ui2_messages.set_pos
+
+local fit_msg_width = function()
+  local win, width = ui2.wins.msg, 1
+  if not vim.api.nvim_win_is_valid(win) then return end
+  for _, line in ipairs(vim.api.nvim_buf_get_lines(ui2.bufs.msg, 0, -1, false)) do
+    width = math.max(width, vim.fn.strdisplaywidth(line))
   end
-  return set_width(win, width)
+  ui2_messages.msg.width = math.min(width, math.floor(vim.o.columns * 0.4))
+  vim.api.nvim_win_set_width(win, ui2_messages.msg.width)
+  if not vim.api.nvim_win_get_config(win).hide then
+    set_pos('msg')
+  end
+end
+
+ui2_messages.show_msg = function(tgt, ...)
+  local ret = show_msg(tgt, ...)
+  if tgt == 'msg' then
+    fit_msg_width()
+  end
+  return ret
+end
+
+ui2_messages.set_pos = function(tgt, ...)
+  local ret = set_pos(tgt, ...)
+  if tgt == nil or tgt == 'msg' then
+    fit_msg_width()
+  end
+  return ret
 end
 
 local cmdline_show = ui2_cmdline.cmdline_show
