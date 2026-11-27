@@ -5,6 +5,7 @@ require('plugins.catppuccin')
 require('plugins.lualine')
 
 local ui2 = require('vim._core.ui2')
+local ui2_cmdline = require('vim._core.ui2.cmdline')
 local utils = require('utils')
 local cmdline = require('tiny-cmdline')
 local indent = require('blink.indent')
@@ -58,9 +59,19 @@ end
 local set_width = vim.api.nvim_win_set_width
 vim.api.nvim_win_set_width = function(win, width)
   if win == ui2.wins.msg then
-    width = math.min(width, vim.opt_local.columns:get() * 0.4)
+    width = math.min(width, math.floor(vim.o.columns * 0.4))
   end
   return set_width(win, width)
+end
+
+local cmdline_show = ui2_cmdline.cmdline_show
+ui2_cmdline.cmdline_show = function(content, pos, firstc, prompt, indent, level, hl_id)
+  if firstc == '/' or firstc == '?' then
+    firstc = firstc == '/' and 'Forward (󱞣):' or 'Backward (󱞿):'
+    hl_id = vim.api.nvim_get_hl_id_by_name('SearchPrefix')
+    indent = 1
+  end
+  return cmdline_show(content, pos, firstc, prompt, indent, level, hl_id)
 end
 
 utils.create_autocmd('FileType', {

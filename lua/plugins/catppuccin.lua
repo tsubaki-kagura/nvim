@@ -36,6 +36,7 @@ require('catppuccin').setup({
         BufferManagerModified = { fg = colors.sky },
         BufferManagerTitle = { fg = colors.subtext0 },
         MessageNormal = { bg = colors.mantle },
+        SearchPrefix = { fg = colors.rosewater },
       }
     end,
   },

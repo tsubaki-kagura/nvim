@@ -38,7 +38,7 @@
       "src": "https://github.com/nvim-lua/plenary.nvim.git"
     },
     "tiny-cmdline.nvim": {
-      "rev": "ac9c6557c66da6308eb523643df8778f3cbe652f",
+      "rev": "b6bb66ee46421b7965cbc961c9fae89310a87bd1",
       "src": "https://github.com/rachartier/tiny-cmdline.nvim.git"
     }
   }

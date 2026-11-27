@@ -1,4 +1,6 @@
 local blink_pairs = require('blink.pairs')
+local mini_files = require('mini.files')
+local utils = require('utils')
 
 local blink_pairs_setup = function()
   blink_pairs.setup({
@@ -32,17 +34,11 @@ if blink_pairs.library_available() then
   blink_pairs_setup()
 else
   blink_pairs.download()
-  :timeout(10000)
-  :on_resolve(function()
-    vim.schedule(function()
-      blink_pairs_setup()
-    end)
-  end)
-  :on_reject(function(err)
-    vim.schedule(function()
+    :timeout(10000)
+    :on_resolve(vim.schedule_wrap(blink_pairs_setup))
+    :on_reject(vim.schedule_wrap(function(err)
       vim.notify(vim.inspect(err), vim.log.levels.ERROR)
-    end)
-  end)
+    end))
 end
 
 local hide_dotfiles = true
@@ -50,7 +46,6 @@ local hidden_filter = function(entry)
   return not (hide_dotfiles and vim.startswith(entry.name, '.'))
 end
 
-local mini_files = require('mini.files')
 mini_files.setup({
   content = { filter = hidden_filter },
   mappings = {
@@ -68,7 +63,6 @@ mini_files.setup({
   },
 })
 
-local utils = require('utils')
 utils.keymap('n', '<leader>me', function()
   if mini_files.close() then return end
   local cwd = vim.fn.getcwd()

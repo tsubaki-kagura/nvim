@@ -12,28 +12,36 @@ mini_icons.setup({ style = 'glyph' })
 mini_icons.mock_nvim_web_devicons()
 
 local register = ''
-
-utils.create_autocmd('RecordingEnter', {
-  callback = function()
-    if register == '' then
-      vim.schedule(function()
+utils.create_autocmd({ 'RecordingEnter', 'RecordingLeave' }, {
+  callback = function(event)
+    vim.schedule(function()
+      if event.event == 'RecordingEnter' and register == '' then
         register = vim.fn.reg_recording()
         lualine.refresh()
-      end)
-    end
+      elseif event.event == 'RecordingLeave' and register ~= '' then
+        register = ''
+        lualine.refresh()
+      end
+    end)
   end,
 })
 
-utils.create_autocmd('RecordingLeave', {
-  callback = function()
-    if register ~= '' then
-      vim.schedule(function()
-        register = ''
-        lualine.refresh()
-      end)
+local pending_key = ''
+vim.on_key(function(_, typed)
+  if typed == '' then return end
+  vim.schedule(function()
+    if vim.api.nvim_get_mode().mode == 'no' then
+      pending_key = pending_key .. typed
+      lualine.refresh()
     end
-  end,
-})
+  end)
+  if vim.api.nvim_get_mode().mode == 'no' then
+    pending_key = pending_key .. typed
+    lualine.refresh({ force = true })
+  elseif pending_key ~= '' then
+    pending_key = ''
+  end
+end)
 
 local find_git_dir = git_branch.find_git_dir
 git_branch.find_git_dir = function(dir_path)
@@ -74,6 +82,7 @@ local common_components = {
     'filename',
     path = 1,
     shorting_target = 64,
+    padding = { left = 0 },
     symbols = {
       modified = '󰷬',
       readonly = '󰷧',
@@ -137,15 +146,28 @@ lualine.setup({
     lualine_x = {
       {
         function()
+          return pending_key
+        end,
+        cond = function()
+          return pending_key ~= ''
+        end,
+        fmt = function(str)
+          return str ~= nil and pending_key or ''
+        end,
+        icon = '',
+        color = { fg = mocha_colors.teal },
+      },
+      {
+        function()
           return register
         end,
         cond = function()
           return register ~= ''
         end,
-        fmt = function(reg)
-          reg = reg == 'nil' and '' or reg
-          return reg ~= '' and (' REC @' .. register) or ''
+        fmt = function(str)
+          return str ~= nil and register or ''
         end,
+        icon = '',
         color = { fg = mocha_colors.red },
       },
       {

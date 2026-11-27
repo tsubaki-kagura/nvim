@@ -12,13 +12,12 @@ keymap('i', '<c-j>', '<down>')
 keymap('i', '<c-k>', '<up>')
 keymap('i', '<c-l>', '<right>')
 
-keymap('n', 'U', '<c-r>')
 keymap('n', '+', '<c-a>')
 keymap('n', '-', '<c-x>')
+keymap('n', 'U', '<c-r>')
 keymap('n', '<leader>rs', '<cmd>restart<cr>')
 keymap('n', '<leader>ch', '<cmd>nohlsearch<cr>')
 keymap('n', '<a-z>', toggle_textwrap)
-
 
 local close_other_windows = function()
   local cur_win = vim.api.nvim_get_current_win()
@@ -43,6 +42,8 @@ keymap('n', '<a-h>', '<cmd>vertical resize +1<cr>')
 keymap('n', '<a-j>', '<cmd>resize -1<cr>')
 keymap('n', '<a-k>', '<cmd>resize +1<cr>')
 keymap('n', '<a-l>', '<cmd>vertical resize -1<cr>')
+
+keymap('v', 'p', '"_xP')
 
 keymap({ 'n', 'v' }, 'x', '"_x')
 keymap({ 'n', 'v' }, 'c', '"_c')
