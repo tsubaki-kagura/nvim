@@ -29,19 +29,33 @@ utils.create_autocmd({ 'RecordingEnter', 'RecordingLeave' }, {
 local pending_key = ''
 vim.on_key(function(_, typed)
   if typed == '' then return end
-  vim.schedule(function()
+  vim.schedule(function() -- 捕获触发 operator-pending 模式的按键
     if vim.api.nvim_get_mode().mode == 'no' then
       pending_key = pending_key .. typed
       lualine.refresh()
     end
   end)
-  if vim.api.nvim_get_mode().mode == 'no' then
+  local mode = vim.api.nvim_get_mode()
+  if mode.mode == 'no' then -- 捕获触发 operator-pending 模式后继续按下的按键
     pending_key = pending_key .. typed
     lualine.refresh({ force = true })
-  elseif pending_key ~= '' then
+  elseif pending_key ~= '' then -- 录制结束后需要清空 pending_key
     pending_key = ''
   end
 end)
+
+utils.create_autocmd('MarkSet', {
+  callback = function(event)
+    local buf, line, col = event.buf, event.data.line, event.data.col
+    local name = event.data.name
+    if line == 0 then
+      return vim.notify(('标记 %s 已删除'):format(name))
+    end
+    local text = vim.api.nvim_buf_get_lines(buf, line - 1, line, false)[1] or ''
+    local char_col = vim.fn.charidx(text, col) + 1
+    vim.notify(('标记 %s 已创建, 位于 (%d, %d)'):format(name, line, char_col))
+  end,
+})
 
 local find_git_dir = git_branch.find_git_dir
 git_branch.find_git_dir = function(dir_path)

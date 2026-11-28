@@ -1,65 +1,65 @@
-local opt = vim.opt
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.softtabstop = -1
+vim.o.shiftround = true
+vim.o.expandtab = true
 
-opt.tabstop = 4
-opt.shiftwidth = 4
-opt.softtabstop = -1
-opt.shiftround = true
-opt.expandtab = true
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.signcolumn = 'yes'
 
-opt.iskeyword:append('-')
+vim.o.termguicolors = true
+vim.o.cursorline = true
+vim.o.colorcolumn = '100'
 
-opt.number = true
-opt.relativenumber = true
-opt.wrap = false
+vim.o.wrap = false
+vim.o.linebreak = false
 
-opt.cursorline = true
-opt.signcolumn = 'yes'
-opt.colorcolumn = '100'
+vim.o.scrolloff = 8
+vim.o.sidescrolloff = 8
 
-opt.scrolloff = 8
-opt.sidescrolloff = 8
+vim.o.title = true
+vim.o.pumheight = 10
+vim.o.pumborder = 'rounded'
+vim.o.winborder = 'rounded'
 
-opt.title = true
-opt.pumheight = 10
-opt.pumborder = 'rounded'
-opt.winborder = 'rounded'
+vim.opt.iskeyword:append('-')
+vim.opt.fillchars:append({ diff = '/', eob = ' ' })
 
-opt.fillchars:append({ diff = '/', eob = ' ' })
+vim.o.ignorecase = true
+vim.o.smartcase = true
 
-opt.ignorecase = true
-opt.smartcase = true
+vim.o.completeopt = 'menuone,popup,noselect'
 
-opt.path:append('**')
-opt.wildmode = { 'longest:full', 'full' }
-opt.wildignore:append({
+vim.opt.path:append('**')
+vim.o.wildmode = 'longest:full,full'
+vim.opt.wildignore:append({
   '*.o', '*.obj', '*.pyc', '*.class', '*.jar',
   '*/node_modules/*', '*/.git/*', '*/.venv/*',
   '**/target/**', '**/build/**',
 })
 
-opt.completeopt = { 'menuone', 'popup', 'noselect' }
+vim.o.swapfile = false
+vim.o.writebackup = false
+vim.o.undofile = true
 
-opt.swapfile = false
-opt.writebackup = false
-opt.undofile = true
+vim.o.updatetime = 250
+vim.o.timeoutlen = 250
+vim.o.ttimeoutlen = 0
 
-opt.updatetime = 250
-opt.timeoutlen = 250
-opt.ttimeoutlen = 0
+vim.o.splitbelow = true
+vim.o.splitright = true
+vim.o.splitkeep = 'screen'
 
-opt.splitbelow = true
-opt.splitright = true
-opt.splitkeep = 'screen'
+vim.o.foldmethod = 'expr'
+vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.o.foldlevel = 99
 
-opt.foldmethod = 'expr'
-opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-opt.foldlevel = 99
+vim.o.report = 0
+vim.o.confirm = true
 
-opt.report = 0
-opt.confirm = true
-
-opt.list = true
-opt.listchars:append({
+vim.o.list = true
+vim.opt.listchars:append({
   tab = '󰌒 ',
   trail = '•',
   nbsp = '󱁐',
